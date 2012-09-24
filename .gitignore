@@ -1,0 +1,9 @@
+/eclipse/
+/tmp
+/modules
+/test-result
+/logs
+/bin/
+*.pyc
+/play-1.2.5/framework/bin/
+/play-1.2.5/framework/classes/

@@ -1,0 +1,13 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+#{if flash.error}
+	<p style=color:#c00>
+		${flash.error}	
+	<p>
+#{/if}
+<form action="@{Application.renderResult()}" method="POST">
+    <p>Enter SQL </p>
+    <textarea id="testSQL" name="testSQL" class="input" style="height:180px"></textarea>
+    <input type="submit" value="Run" />
+</form> 

@@ -1,5 +1,9 @@
 package controllers;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.junit.Assert;
 import org.slf4j.LoggerFactory;
 
 import play.data.validation.Required;
@@ -11,7 +15,15 @@ import com.alvazan.orm.api.util.NoSql;
 import com.alvazan.orm.api.z3api.NoSqlTypedSession;
 import com.alvazan.orm.api.z3api.QueryResult;
 import com.alvazan.orm.api.z8spi.KeyValue;
+import com.alvazan.orm.api.z8spi.conv.StandardConverters;
 import com.alvazan.orm.api.z8spi.iter.Cursor;
+import com.alvazan.orm.api.z8spi.meta.DboColumnIdMeta;
+import com.alvazan.orm.api.z8spi.meta.DboColumnMeta;
+import com.alvazan.orm.api.z8spi.meta.DboColumnToManyMeta;
+import com.alvazan.orm.api.z8spi.meta.DboColumnToOneMeta;
+import com.alvazan.orm.api.z8spi.meta.DboDatabaseMeta;
+import com.alvazan.orm.api.z8spi.meta.DboTableMeta;
+import com.alvazan.orm.api.z8spi.meta.TypedColumn;
 import com.alvazan.orm.api.z8spi.meta.TypedRow;
  
 
@@ -31,11 +43,12 @@ public class Application extends Controller {
         NoSqlEntityManager mgr = NoSql.em();
         NoSqlTypedSession ntsession = mgr.getTypedSession();
         try {
-            QueryResult result = ntsession.createQueryCursor(testSQL, 50);
-            Cursor<KeyValue<TypedRow>> iter = result.getPrimaryViewCursor();      
-            render(testSQL, iter);
+            QueryResult result = ntsession.createQueryCursor(testSQL, 5);
+            Cursor<KeyValue<TypedRow>> iter = result.getPrimaryViewCursor();
+            Cursor<List<TypedRow>> rowsIter = result.getAllViewsCursor();
+            render(testSQL,iter,rowsIter);
         } catch(ParseException e) {
-            flash.error("Sorry, not able to parse the SQL. Please enter a Valid SQL");
+            flash.error("Sorry, there is a problem.  " + e.getCause().getMessage());
             index();
         } catch(RuntimeException e) {
             flash.error("Sorry, there is a problem with the SQL. Please enter a Valid SQL");

@@ -1,51 +1,72 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
- 
-<h2>Results for Query: ${testSQL}</h2>
-
-    <table>
-           %{ 	
-           		if(iter.next())
-           		{
-           		com.alvazan.orm.api.z8spi.KeyValue<com.alvazan.orm.api.z8spi.meta.TypedRow> row = iter.getCurrent();
-           		Collection<com.alvazan.orm.api.z8spi.meta.TypedColumn> columns =  row.getValue().getColumnsAsColl();
-           		//DboDatabaseMeta database = mgr.find(DboDatabaseMeta.class, DboDatabaseMeta.META_DB_ROWKEY);
-
-           	}%
-        <thead>
-        	<tr>
-       			<th>NoSQLID</th>
-        		#{list columns, as:'col'}
-        			<th> ${col.getName()}</th>  
-        			%{
-           		}% 
-   				#{/list} 
-            </tr>
-        </thead>
-        %{ 
-        	}        	
-        }%
-        <tbody>
-			%{ 	
-           		iter.beforeFirst();
-           		while(iter.next())
-           		{
-           		com.alvazan.orm.api.z8spi.KeyValue<com.alvazan.orm.api.z8spi.meta.TypedRow> row = iter.getCurrent();
-           		Collection<com.alvazan.orm.api.z8spi.meta.TypedColumn> columns =  row.getValue().getColumnsAsColl(); 
-           		String keyName = row.getKey().toString(); 
-           	}%
-           	 <tr>
-           	    <td> ${keyName}</td>
-           	    #{list columns, as:'col'}
-        			<td> ${col.getValue()}</td>  
-        			%{
-           		}% 
-   				#{/list} 
-             </tr>
-        </tbody>       
-        %{ 
-        	}        	
-        }%
-    </table>
+<h2>Results for Query: ${testSQL} </h2>
 </br>
- <a href="@{Application.index()}">Back to form </a>
+     <h3>getAllViewsCursor:</h3>
+        <table id="Play" class="yui" align="center">
+           <tbody>
+				%{ 	
+					rowsIter.beforeFirst();
+	           		while(rowsIter.next())
+	           		{	           			           		
+	           	}%
+	           		<tr>	           			
+	           			#{if rowsIter.current}
+	        				#{list rowsIter.current, as:'rowval'}
+	           					<td> 
+	           						<b>${rowval.view.tableMeta.idColumnMeta.columnName}</b>
+	           						</br>---</br>
+	           						${rowval.rowKeyString}
+	           					</td>	        				
+	        					#{if rowval}
+						           	 #{list rowval.columnsAsColl, as:'colval'}
+						           	  	#{if colval && rowval.view.tableMeta}
+						           			%{				
+												String name, strvalue, fullname, subName = null;
+												com.alvazan.orm.api.z8spi.meta.DboColumnMeta colMeta = rowval.view.tableMeta.getColumnMeta(colval.name);
+											    if(colMeta != null) {
+									                 name = colval.getName();
+									                if(colMeta instanceof com.alvazan.orm.api.z8spi.meta.DboColumnToManyMeta) {
+									                    subName  = colval.getCompositeSubName();
+									                    name = name+"."+subName;
+									                    byte[] value = (byte[]) colval.getValue();
+									                     strvalue =  com.alvazan.orm.api.z8spi.conv.StandardConverters.convertToString(byte[].class, value);
+									                } else {
+									                    strvalue = colval.getValueAsString();
+									                }
+									            }
+											}%
+											#{if colMeta}
+						        				<td>
+						        				 	<b>${name}</b>
+			           								</br>---</br>
+			           								#{if strvalue}
+			           									${strvalue}
+			           								#{/if}
+			           								#{else}
+			           									&nbsp
+			           								#{/else}
+												</td>
+											#{/if}
+					        			#{/if}
+						             #{/list}
+						         #{/if}
+		         		    #{/list}
+	         		     #{/if} 			
+        		 </tr> 	         		 
+           	  %{ 
+        		 }        	
+         	  }%
+           </tbody> 
+  </table>
+  </br>
+       <div id="pageNavPosition" style="padding-top: 20px" align="center">
+       </div>
+ <script type="text/javascript"><!--
+var pager = new Pager('Play', 3);
+pager.init();
+pager.showPageNav('pager', 'pageNavPosition');
+pager.showPage(1);
+</script>
+</br>
+ <a href="@{Application.index()}" align="left">Back to form </a>

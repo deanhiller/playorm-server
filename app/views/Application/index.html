@@ -6,8 +6,8 @@
 		${flash.error}	
 	<p>
 #{/if}
-<form action="@{Application.renderResult()}" method="POST">
+<form action="@{Application.showResult()}" method="POST">
     <p>Enter SQL </p>
     <textarea id="testSQL" name="testSQL" class="input" style="width:80em;height:180px" cols="100"></textarea>
-    <input type="submit" value="Run" />
+    <input type="submit" id="submit" value="Run" />
 </form> 

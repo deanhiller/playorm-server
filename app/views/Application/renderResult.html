@@ -4,69 +4,39 @@
 </br>
      <h3>getAllViewsCursor:</h3>
         <table id="Play" class="yui" align="center">
-           <tbody>
-				%{ 	
-					rowsIter.beforeFirst();
-	           		while(rowsIter.next())
-	           		{	           			           		
-	           	}%
-	           		<tr>	           			
-	           			#{if rowsIter.current}
-	        				#{list rowsIter.current, as:'rowval'}
-	           					<td> 
-	           						<b>${rowval.view.tableMeta.idColumnMeta.columnName}</b>
-	           						</br>---</br>
-	           						${rowval.rowKeyString}
-	           					</td>	        				
-	        					#{if rowval}
-						           	 #{list rowval.columnsAsColl, as:'colval'}
-						           	  	#{if colval && rowval.view.tableMeta}
-						           			%{				
-												String name, strvalue, fullname, subName = null;
-												com.alvazan.orm.api.z8spi.meta.DboColumnMeta colMeta = rowval.view.tableMeta.getColumnMeta(colval.name);
-											    if(colMeta != null) {
-									                 name = colval.getName();
-									                if(colMeta instanceof com.alvazan.orm.api.z8spi.meta.DboColumnToManyMeta) {
-									                    subName  = colval.getCompositeSubName();
-									                    name = name+"."+subName;
-									                    byte[] value = (byte[]) colval.getValue();
-									                     strvalue =  com.alvazan.orm.api.z8spi.conv.StandardConverters.convertToString(byte[].class, value);
-									                } else {
-									                    strvalue = colval.getValueAsString();
-									                }
-									            }
-											}%
-											#{if colMeta}
-						        				<td>
-						        				 	<b>${name}</b>
-			           								</br>---</br>
-			           								#{if strvalue}
-			           									${strvalue}
-			           								#{/if}
-			           								#{else}
-			           									&nbsp
-			           								#{/else}
-												</td>
-											#{/if}
-					        			#{/if}
-						             #{/list}
-						         #{/if}
-		         		    #{/list}
-	         		     #{/if} 			
-        		 </tr> 	         		 
-           	  %{ 
-        		 }        	
-         	  }%
+        	<tbody>	 			           			
+	           	#{if tableRowsList}
+	        		#{list tableRowsList, as:'rowval'}
+	        			<tr>
+	        				#{if rowval}
+	        					#{list rowval, as:'colval'}
+					 				<td>
+					 					<b>${colval.get("colId")}</b>
+					 					</br>---</br>
+					 					#{if colval.get("colValue")}
+					 						${colval.get("colValue")}
+					 					#{/if}
+					 					#{else}
+					 						&nbsp
+					 					#{/else}	
+	 				 				</td>	        				
+	        			        #{/list}
+						    #{/if}
+						</tr>		  
+		        	#{/list}		         		
+	         	#{/if}
            </tbody> 
-  </table>
+  		</table>
   </br>
        <div id="pageNavPosition" style="padding-top: 20px" align="center">
-       </div>
+      </div>
+
  <script type="text/javascript"><!--
-var pager = new Pager('Play', 3);
+var pager = new Pager('Play', 50);
 pager.init();
 pager.showPageNav('pager', 'pageNavPosition');
 pager.showPage(1);
 </script>
+
 </br>
  <a href="@{Application.index()}" align="left">Back to form </a>

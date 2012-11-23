@@ -28,15 +28,25 @@
            </tbody> 
   		</table>
   </br>
-       <div id="pageNavPosition" style="padding-top: 20px" align="center">
-      </div>
-
- <script type="text/javascript"><!--
-var pager = new Pager('Play', 50);
-pager.init();
-pager.showPageNav('pager', 'pageNavPosition');
-pager.showPage(1);
-</script>
+  <table style="width:25% ;margin-left: 26cm; border-color: white;">
+  	<tr>
+		#{if page > 1}
+			<td align="left" style="border-color: white;">
+				<a href="javascript:history.go(-1)"><h4 style="color: black;"><< Previous</h4></a>
+			</td>
+		#{/if}
+		#{if tableRowsList.size == localsize}
+			<td align="right" style="border-color: white;">
+				<a href="@{Application.renderResult(testSQL,page=page+1)}"><h4 style="color: black;">Next >></h4></a>
+			</td>
+		#{/if}
+	</tr>
+  </table>
+  </br>
+  #{if page >2}
+  	<a href="@{Application.firstPage(testSQL,page=1)}"><h4 style="color: black;">First Page</h4></a>
+  #{/if}
+</br>
 
 </br>
  <a href="@{Application.index()}" align="left">Back to form </a>

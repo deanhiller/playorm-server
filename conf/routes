@@ -4,7 +4,8 @@
 
 # Home page
 GET     /                                      	Application.index
-GET		/query/{testSQL}						Application.renderResult
+GET		/query/{testSQL}						Application.processSQL
+GET 	/query/{testSQL}/{page}					Application.renderResult
 POST	/query									Application.showResult
 
 

@@ -20,7 +20,7 @@ public class PlayAccount extends PlayAccountSuper{
     private Float users;
 
     //@Transient
-    @NoSqlOneToMany(entityType=PlayActivity.class)
+    @NoSqlOneToMany
     private List<PlayActivity> activities = new ArrayList<PlayActivity>();
 
     public String getId() {

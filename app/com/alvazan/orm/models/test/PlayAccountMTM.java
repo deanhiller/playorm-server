@@ -25,12 +25,12 @@ public class PlayAccountMTM extends PlayAccountSuper{
     private Float users;
 
     //@Transient
-  	@NoSqlOneToMany(entityType=PlayActivityMTM.class)
+  	@NoSqlOneToMany
     private List<PlayActivityMTM> activities = new ArrayList<PlayActivityMTM>();
     
-	@NoSqlManyToMany(entityType=PlayActivityMTM.class)
+/*	@NoSqlManyToMany
 	private CursorToMany<PlayActivityMTM> activitiesCursor = new CursorToManyImpl<PlayActivityMTM>();
-
+*/
     public String getId() {
         return id;
     }
@@ -70,13 +70,13 @@ public class PlayAccountMTM extends PlayAccountSuper{
         return activities;
     }
     
-	public CursorToMany<PlayActivityMTM> getActivitiesCursor() {
+	/*public CursorToMany<PlayActivityMTM> getActivitiesCursor() {
 		return activitiesCursor;
-	}
+	}*/
 
 	public void addActivity(PlayActivityMTM act1) {
 		activities.add(act1);
-		activitiesCursor.addElement(act1);
+		//activitiesCursor.addElement(act1);
 	}
     
 }

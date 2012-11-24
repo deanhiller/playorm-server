@@ -1,0 +1,35 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#loadmore").click(function(e) {
+			e.preventDefault();
+			loadDynamic2(this.href);
+		});
+		
+	});
+	function loadDynamic2(url) {
+		$("#meta").load(url , 
+		            function () {
+		                $(this).hide().fadeIn("slow");
+		            } );
+	}
+</script>
+<div style="height:1800px; width: 600px; ">
+	<table id="indexTable">
+    	<tr>
+			<th>${index}</th>
+		</tr>
+    	#{if columnList}
+    		#{list columnList, as:'column'}
+			<tr>
+				<td>
+				${column}
+            	</td>
+			</tr>
+        	#{/list}
+		#{/if}
+    	#{if count ==50}   
+	 		<a id="loadmore" href="@{Application.moreIndex(columnFamilyName, index, page)}">View More</a>
+        #{/if}                                
+	</table>
+</div>
+    

@@ -1,0 +1,53 @@
+#{set title:'Home' /}
+<script type="text/javascript">
+$(document).ready(function () {
+    $("#columnTable  a").click(function(e){
+        e.preventDefault();
+        loadDynamic1(this.href);
+    });
+});
+
+function loadDynamic1(url) {
+    $("#meta")
+        .load(url, 
+            function () {
+                // make content visible with effect
+                $(this).hide().fadeIn("slow");
+                return false;
+            });
+}
+</script>
+	<table>
+    	<tr>
+        	<td>
+            	<div id="columnList" style="overflow: auto; height: 1800px;">
+              		<br>
+             		<h4>${columnFamilyName}</h4>
+               		<table id="columnTable">
+                 	#{if indexList}
+                 		#{list indexList, as:'index'}
+                        <tr>
+                        	<td>
+                            	<a href="@{Application.processIndex(columnFamilyName,index)}">${index}</a>
+                            </td>
+                        </tr>
+                        #{/list}
+                	#{/if}
+                	#{if showList}
+                		#{list showList, as:'show'}
+                        <tr>
+                        	<td>
+                            	${show}
+                            </td>
+                        </tr>
+                        #{/list}
+                	#{/if}
+                	</table>
+               </div>
+         	</td>      
+     		<td>
+            	<div id="meta" style="overflow: auto; height: 1800px; width: 800px;">
+		    	</div>
+     		</td>
+   		</tr>		
+	</table>		

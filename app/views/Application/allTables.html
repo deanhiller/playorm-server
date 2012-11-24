@@ -1,0 +1,40 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#alltable  a").click(function(e) {
+			e.preventDefault();
+			loadDynamic(this.href);
+		});
+		
+	});
+	function loadDynamic(url) {
+		$("#content").load(url , 
+		            function () {
+		                $(this).hide().fadeIn("slow");
+	            } );
+	}
+</script>
+<div id="container" style="height:1800px width:1300px">
+	<div id="menu" style="float: left;">
+		<table id="alltable">
+			<tr>
+				<td>
+					<h3>ColumnFamilies</h3>
+				</td>				
+			</tr>
+			#{if tableList} 
+			 #{list tableList, as:'columnFamilyName'}
+				 <tr>
+				  <td>
+				       <a href="@{Application.detailresult(columnFamilyName)}">${columnFamilyName}</a>
+				  </td>
+			   </tr>
+			 #{/list}
+		    #{/if}
+		</table>
+	</div>
+	<div id="content"
+		style="height: 1800px; width: 800px; float: left;">
+	</div>
+</div>

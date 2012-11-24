@@ -1,0 +1,61 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#load").click(function(e) {
+			e.preventDefault();
+			loadDynamic3(this.href);
+		});
+		$("#load1").click(function(e) {
+			e.preventDefault();
+			loadDynamic3(this.href);
+		});
+		$("#load2").click(function(e) {
+			e.preventDefault();
+			loadDynamic3(this.href);
+		});
+		
+	});
+	function loadDynamic3(url) {
+		$("#meta").load(url , 
+		            function () {
+		                $(this).hide().fadeIn("slow");
+		            } );
+	}
+</script>
+
+<table id="table3">
+	#{if batchList}
+    	#{list batchList, as:'batch'}
+        	<tr>
+            	<td>
+                	${batch}</a>
+                </td>
+           </tr>
+         #{/list}
+      #{/if}
+ <br>
+	       <tr>
+           	#{if page > 0}
+		   		<td align="left" style="border-color: white;">
+					<a id="load1" href="javascript:history.back(-2)"><< Previous</h4></a>
+		    	</td> &nbsp
+		   	#{/if}
+	       	#{if p == 50 }
+		    	<td align="right" style="border-color: white;">
+			    	<a id="load" href="@{Application.moreIndex(columnFamilyName,index,page=page+1)}"><h4 style="color: black;">Next >></h4></a>
+			    </td>
+		    #{/if}
+		    #{if page >1}
+		        <td>
+  	                <a id="load2" href="@{Application.processIndex(columnFamilyName,index)}"><h4 style="color: black;">First Page</h4></a>
+  	            </td>
+            #{/if}
+        </tr>
+        <tr>
+	        <td>
+            	<a href="@{Application.allTables()}" align="left">Back to column family </a>
+            </td>
+            <td>
+            	<a href="@{Application.index()}" align="left">Back to form </a>
+            </td>
+        </tr>
+</table>
